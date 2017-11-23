@@ -20,7 +20,7 @@ Once the download is complete, launch Pharo using:
 ./pharo Pharo.image
 ```
 
-### Use Iceberg to store your source code in Tonelformat
+### Use Iceberg to store your source code in Tonel format
 Tonel is the new serialisation fromat for Pharo's source code. It has the advantage to store each class in a single file which makes reading your source code from github interface easy.
 
 TODO
