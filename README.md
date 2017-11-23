@@ -1,4 +1,4 @@
-# AdventOfCode2017WithPharo
+# Advent Of Code 2017 with Pharo
 The repository in which Pharo community will store their solutions to the [Advent of Code 2017'](http://adventofcode.com)s programming puzzles.
 
 The goal is to centralize solutions of Pharo community for learning purpose. People will then be able to check how AOC puzzles can be solved in Pharo with different styles.
