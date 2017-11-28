@@ -7,7 +7,7 @@ The goal is to centralize solutions of Pharo community for learning purpose. Peo
 1. Fork this repository
 2. Create a directory named according to your name (for example mine is `juliendelplanque`)
 3. You can use this directory to store your puzzles solutions. 
-4. Each time you solved a puzzle, commit it into your personal fork of this repository and create a pull request.
+4. Each time you solved a puzzle, commit your solution's markdown file into your personal fork of this repository and create a pull request.
 
 ### Pharo version
 If you participate, please use Pharo 6.1 that you can get using the following command:
@@ -20,10 +20,7 @@ Once the download is complete, launch Pharo using:
 ./pharo Pharo.image
 ```
 
-### Use Iceberg to store your source code in Tonel format
-Tonel is the new serialisation fromat for Pharo's source code. It has the advantage to store each class in a single file which makes reading your source code from github interface easy.
-
-TODO
-
 ### Structure of a solution
-TODO: proposition of a common structure for solutions submitted.
+The solutions to AOC puzzles will take the form of Markdowns files. For each solution, use the `template.md' file as a basis.
+
+
