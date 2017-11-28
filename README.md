@@ -25,3 +25,5 @@ Once the download is complete, launch Pharo using:
 ### Structure of a solution
 The solutions to AOC puzzles will take the form of Markdowns files. For each solution, use the `template.md` file as a basis.
 
+An example of solution (which is a solution of AOC 2016 first puzzle) is available at `example/aoc2016-1.md`. Your solutions should be formatted similarly.
+
