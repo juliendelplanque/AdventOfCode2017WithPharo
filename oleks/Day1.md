@@ -1,8 +1,8 @@
 # Advent of Code 2017: Day 1
+1. [Homepage of Day 1 puzzle](http://adventofcode.com/2017/day/1)
+2. [Complete code of this solution](https://github.com/olekscode)
 
 ## Puzzle description
-The full puzzle can be found [here](http://adventofcode.com/2017/day/1).
-
 You're standing in a room with "digitization quarantine" written in LEDs along one wall. The only door is locked, but it includes a small interface. "Restricted Area - Strictly No Digitized Users Allowed."
 
 It goes on to explain that you may only leave by solving a captcha to prove you're not a human. Apparently, you only get one millisecond to solve the captcha: too fast for a normal human, but it feels like hours to you.
@@ -24,7 +24,12 @@ What is the solution to your captcha?
 ```
 
 ## Solution
-To solve this puzzle I create one class
+To solve this puzzle I create a simple class `ReverseCaptchaSolver` with class-side method `solve:` that finds a solution to a given captcha represented by a string of digits. Here is an example of how this class will be used:
+
+```Smalltalk
+ReverseCaptchaSolver solve: '1122'. "3"
+```
+I put this class inside  `Day1` tag of my `AdventOfCode2017` package
 
 ```Smalltalk
 Object subclass: #ReverseCaptchaSolver
@@ -32,7 +37,19 @@ Object subclass: #ReverseCaptchaSolver
     classVariableNames: ''
     package: 'AdventOfCode2017-Day1'
 ```
-It has a class-side method
+Summing up all digits that match the next digit in the list is an easy task. The only tricky part is that the list must be circular. We should compare every digit except the last one to the digit right next to it and then compare the last digit to the first one. The most clean and easy solution that comes to my mind is adding the first digit to the end of the list. This way `1122` becomes `11221` and `91212129` becomes `912121299`.
+
+```Smalltalk
+makeCircular: aStringOfDigits
+    "Makes captcha string circular by adding its first digit to the end of it"
+
+    | firstDigit |
+
+    firstDigit := aStringOfDigits first asString.
+    ^ aStringOfDigits, firstDigit.
+```
+
+Now we just need to iterate through all the digits of the given capcha (except that last digit that we added) and compare each one of them to the next digit in the list.
 
 ```Smalltalk
 solve: captchaString
@@ -51,7 +68,7 @@ solve: captchaString
             ifFalse: [ sum ] ].
 ```
 
-I test my solution on all the examples provided in puzzle description. For example, captcha '1122' should be solved as 3.
+To test my solution I wrote 4 tests corresponding to the 4 examples provided in puzzle description. For instance, we expect captcha '1122' to be solved as 3.
 
 ```Smalltalk
 testExample1
@@ -66,4 +83,4 @@ testExample1
 ```
 
 ## Answer
-The answer to this puzzle is 1029. And it is correct.
+The answer to this puzzle is **1029**.
