@@ -1,3 +1,5 @@
+# Part 1
+
 Let's try a one liner.
 
 The key method is `piecesCutWhere:` which gives us the runs.
@@ -15,7 +17,7 @@ From there, collect the metric and sum it all.
 
 # Part 2
 
-	|  sum data offset elementsHalfAway |
+     |  sum data offset elementsHalfAway |
 	
      data := (aPuzzle 
 					inject: (WriteStream on: OrderedCollection new) 
