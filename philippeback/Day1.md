@@ -12,5 +12,21 @@ From there, collect the metric and sum it all.
         thenCollect: [ :longRun |  longRun first  digitValue * (longRun size - 1)]) 
             sum
             
-            
+
+# Part 2
+
+	|  sum data offset elementsHalfAway |
+	
+     data := (aPuzzle 
+					inject: (WriteStream on: OrderedCollection new) 
+					into: [ :s :e | s nextPut:  (e digitValue); yourself]) 
+						contents.
+
+	offset := data size  / 2.
+
+	elementsHalfAway := data withIndexCollect: [ :e :i | data atWrap: i + offset ].
+
+	sum := (data collectWithIndex: [ :e :i |  e = (elementsHalfAway at: i) ifTrue: [ e ] ifFalse: [  0  ]  ]) sum.
+
+	^sum
             
