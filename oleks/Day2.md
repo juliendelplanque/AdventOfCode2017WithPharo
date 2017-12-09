@@ -18,6 +18,8 @@ This is my solution to [Day 2: Corruption Checksum](http://adventofcode.com/2017
 
 ## Setting up the environment
 
+Both puzzles of this day can be solved with [DataFrame](https://github.com/PolyMathOrg/DataFrame). So I create `CorruptedSpreadsheet` - a subclass of `DataFrame` that will implement additional methods for calculating the sums required by these puzzles.
+
 ```Smalltalk
 DataFrame subclass: #CorruptedSpreadsheet
     instanceVariableNames: ''
@@ -26,6 +28,8 @@ DataFrame subclass: #CorruptedSpreadsheet
     category: 'AdventOfCode2017-Day2'
 ```
 
+I also create a `TestCase` to test my solutions on the examples provided in the [puzzle descriptions](http://adventofcode.com/2017/day/2). This way I will verify that my solutions are correct.
+
 ```Smalltalk
 TestCase subclass: #CorruptedSpreadsheetTests
     instanceVariableNames: ''
@@ -33,6 +37,10 @@ TestCase subclass: #CorruptedSpreadsheetTests
     poolDictionaries: ''
     category: 'AdventOfCode2017-Day2'
 ```
+
+The given puzzle input is rather big, so I will put it into a CSV file '/Users/oleks/Desktop/day2.csv' and read it from there. I know that all the values are integers, but [NeoCSVReader]() used by DataFrame to read CSV files returns does not automatically parse strings to numbers whenever it's possible (I thing that this step should be done by DataFrame), so I'm adding it as an [issue]().
+
+Until the desired functionality is added, I can modify my subclass to simply convert all values to integers every time a `CorruptedSpreadsheet` is initialized. This can be done by overriding the `DataFrame >> initializeRows:` method which is called by `DataFrame >> fromCSV:`.
 
 ```Smalltalk
 CorruptedSpreadsheet >> initializeRows: anArrayOfArrays
