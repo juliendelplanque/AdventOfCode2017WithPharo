@@ -1,4 +1,22 @@
 
+# Advent of Code 2017: Day 2
+
+This is my solution to [Day 2: Corruption Checksum](http://adventofcode.com/2017/day/2) puzzles from [Advent of Code 2017](http://adventofcode.com/2017). All code blocks were automatically genarated from my [Pharo](https://pharo.org) image with [Epicea Markdown Exporter](https://medium.com/@i.oleks/epicea-markdown-exporter-2d594dd62cbd). The solution is based on [DataFrame](https://github.com/PolyMathOrg/DataFrame) - a new data structure for spreadsheet-like datasets.
+
+## Table of Contents
+1. Setting up the environment
+2. Part 1
+    1. Puzzle
+    2. Solution
+    3. Tests and results
+    4. DataFrame issues
+3. Part 2
+    1. Puzzle
+    2. Solution
+    3. Tests and results
+    4. DataFrame issues
+
+## Setting up the environment
 
 ```Smalltalk
 DataFrame subclass: #CorruptedSpreadsheet
@@ -33,6 +51,13 @@ CorruptedSpreadsheet >> initializeRows: anArrayOfArrays
 
 ## Part 1
 
+### Puzzle
+As you walk through the door, a glowing humanoid shape yells in your direction. "You there! Your state appears to be idle. Come help us repair the corruption in this spreadsheet - if we take another millisecond, we'll have to display an hourglass cursor!"
+
+The spreadsheet consists of rows of apparently-random numbers. To make sure the recovery process is on the right track, they need you to calculate the spreadsheet's checksum. For each row, determine the difference between the largest value and the smallest value; the checksum is the sum of all of these differences.
+
+### Solution
+
 ```Smalltalk
 CorruptedSpreadsheet >> checksum
     "Calculates the checksum of a spreadsheet by summing up
@@ -42,6 +67,8 @@ CorruptedSpreadsheet >> checksum
     ^ (1 to: self numberOfRows) inject: 0 into: [ :sum :i |
             sum + (self rowAt: i) range ].
 ```
+
+### Tests and results
 
 ```Smalltalk
 CorruptedSpreadsheetTests >> testExample1
@@ -73,7 +100,18 @@ CorruptedSpreadsheet class class >> exampleAnswerPart1
     ^ answer
 ```
 
+### DataFrame issues
+
 ## Part 2
+
+### Puzzle
+"Great work; looks like we're on the right track after all. Here's a star for your effort." However, the program seems a little worried. Can programs be worried?
+
+"Based on what we're seeing, it looks like all the User wanted is some information about the evenly divisible values in the spreadsheet. Unfortunately, none of us are equipped for that kind of calculation - most of us specialize in bitwise operations."
+
+It sounds like the goal is to find the only two numbers in each row where one evenly divides the other - that is, where the result of the division operation is a whole number. They would like you to find those numbers on each line, divide them, and add up each line's result.
+
+### Solution
 
 ```Smalltalk
 CorruptedSpreadsheet >> sumOfEvenDivisions
@@ -95,6 +133,8 @@ CorruptedSpreadsheet >> sumOfEvenDivisions
                         evenDiv := div ] ] ] ].
         sum + evenDiv ]).
 ```
+
+### Tests and results
 
 ```Smalltalk
 CorruptedSpreadsheetTests >> testExample2
@@ -126,3 +166,4 @@ CorruptedSpreadsheet class class >> exampleAnswerPart2
     ^ answer
 ```
 
+### DataFrame issues
