@@ -38,7 +38,7 @@ TestCase subclass: #CorruptedSpreadsheetTests
     category: 'AdventOfCode2017-Day2'
 ```
 
-The given puzzle input is rather big, so I will put it into a CSV file '/Users/oleks/Desktop/day2.csv' and read it from there. I know that all the values are integers, but [NeoCSVReader]() used by DataFrame to read CSV files returns does not automatically parse strings to numbers whenever it's possible (I thing that this step should be done by DataFrame), so I'm adding it as an [issue]().
+The given puzzle input is rather big, so I will put it into a CSV file '/Users/oleks/Desktop/day2.csv' and read it from there. I know that all the values are integers, but [NeoCSVReader](https://ci.inria.fr/pharo-contribution/job/EnterprisePharoBook/lastSuccessfulBuild/artifact/book-result/NeoCSV/NeoCSV.html) used by DataFrame to read CSV files returns does not automatically parse strings to numbers whenever it's possible (I thing that this step should be done by DataFrame, so I'm creating an [issue](https://github.com/PolyMathOrg/DataFrame/issues/20) for it).
 
 Until the desired functionality is added, I can modify my subclass to simply convert all values to integers every time a `CorruptedSpreadsheet` is initialized. This can be done by overriding the `DataFrame >> initializeRows:` method which is called by `DataFrame >> fromCSV:`.
 
