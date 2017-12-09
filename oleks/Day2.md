@@ -1,31 +1,128 @@
+
+
 ```Smalltalk
-spreadsheet := DataFrame
-    fromCSV: '/Users/oleks/Desktop/day2.csv'
-    separator: Character tab.
+DataFrame subclass: #CorruptedSpreadsheet
+    instanceVariableNames: ''
+    classVariableNames: ''
+    poolDictionaries: ''
+    category: 'AdventOfCode2017-Day2'
+```
 
-spreadsheet
-    toColumns: spreadsheet columnNames
-    applyElementwise: [ :cell | cell asNumber ].
+```Smalltalk
+CorruptedSpreadsheet >> initializeRows: anArrayOfArrays
+    "Overrides DataFrame>>initializeRows to automatically convert the values retrieved from CSV file with DataFrame class class >> fromCSV: to Number"
+    
+    super initializeRows: anArrayOfArrays.
+    
+    self
+        toColumns: self columnNames
+        applyElementwise: [ :cell | cell asNumber ].
+        
+    ^ self
+```
 
-spreadsheet columnTypes.
+## Part 1
 
-divs:= DataSeries fromArray:
-    ((1 to: spreadsheet numberOfRows) collect: [ :k |
-        | row result div |
-        row :=spreadsheet rowAt: k.
-        result = 0.
+```Smalltalk
+CorruptedSpreadsheet >> checksum
+    "Calculates the checksum of a spreadsheet by summing up the ranges (difference between the largest value and the smallest value) of all its rows."
+
+    ^ (1 to: self numberOfRows) inject: 0 into: [ :sum :i |
+            sum + (self rowAt: i) range ].
+```
+
+```Smalltalk
+CorruptedSpreadsheet >> initializeRows: anArrayOfArrays
+    "Overrides DataFrame>>initializeRows to automatically convert the values retrieved from CSV file with DataFrame class class >> fromCSV: to Number"
+    
+    super initializeRows: anArrayOfArrays.
+    
+    self
+        toColumns: self columnNames
+        applyElementwise: [ :cell | cell asNumber ].
+        
+    ^ self
+```
+
+```Smalltalk
+CorruptedSpreadsheetTests >> testExample1
+
+    | spreadsheet expectedChecksum actualChecksum |
+    
+    spreadsheet := CorruptedSpreadsheet fromRows: #(
+        (5 1 9 5)
+        (7 5 3 4)
+        (2 4 6 8)).
+        
+    expectedChecksum := 18.
+    actualChecksum := spreadsheet checksum.
+    
+    self assert: actualChecksum equals: expectedChecksum.
+```
+
+```Smalltalk
+CorruptedSpreadsheet class class >> exampleAnswerPart1
+<gtExample>
+    "comment stating purpose of message"
+
+    | spreadsheet answer |
+    
+    spreadsheet := self
+        fromCSV: '/Users/oleks/Desktop/day2.csv'
+        separator: Character tab.
+
+    answer := spreadsheet checksum.
+    ^ answer
+```
+
+## Part 2
+
+```Smalltalk
+CorruptedSpreadsheet >> sumOfEvenDivisions
+    "Finds the only two numbers in each row where one evenly divides the other - that is, where the result of the division operation is a whole number. Returns the sum of these divisions across all rows"
+
+    ^ ((1 to: self numberOfRows) inject: 0 into: [ :sum :k |
+        | row div evenDiv |
+      row :=self rowAt: k.
+        evenDiv := 0.
 
         1 to: row size do: [ :i |
             1 to: row size do: [ :j |
                 (i ~= j) ifTrue: [
                     div := (row at: i) / (row at: j).
-
                     div isInteger ifTrue: [
-                        result := div ] ] ] ].
-
-        result ]).
-
-divs sum.
+                        evenDiv := div ] ] ] ].
+        sum + evenDiv ]).
 ```
 
+```Smalltalk
+CorruptedSpreadsheetTests >> testExample2
+
+    | spreadsheet expectedSum actualSum |
+    
+    spreadsheet := CorruptedSpreadsheet fromRows: #(
+        (5 9 2 8)
+        (9 4 7 3)
+        (3 8 6 5)).
+        
+    expectedSum := 9.
+    actualSum := spreadsheet sumOfEvenDivisions.
+    
+    self assert: actualSum equals: expectedSum.
+```
+
+```Smalltalk
+CorruptedSpreadsheet class class >> exampleAnswerPart2
+<gtExample>
+    "comment stating purpose of message"
+
+    | spreadsheet answer |
+    
+    spreadsheet := self
+        fromCSV: '/Users/oleks/Desktop/day2.csv'
+        separator: Character tab.
+
+    answer := spreadsheet sumOfEvenDivisions.
+    ^ answer
+```
 
