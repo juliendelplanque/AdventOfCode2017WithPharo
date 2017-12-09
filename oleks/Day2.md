@@ -9,8 +9,18 @@ DataFrame subclass: #CorruptedSpreadsheet
 ```
 
 ```Smalltalk
+TestCase subclass: #CorruptedSpreadsheetTests
+    instanceVariableNames: ''
+    classVariableNames: ''
+    poolDictionaries: ''
+    category: 'AdventOfCode2017-Day2'
+```
+
+```Smalltalk
 CorruptedSpreadsheet >> initializeRows: anArrayOfArrays
-    "Overrides DataFrame>>initializeRows to automatically convert the values retrieved from CSV file with DataFrame class class >> fromCSV: to Number"
+    "Overrides DataFrame>>initializeRows to automatically
+    convert the values retrieved from CSV file with
+    DataFrame class class >> fromCSV: to Number"
     
     super initializeRows: anArrayOfArrays.
     
@@ -25,23 +35,12 @@ CorruptedSpreadsheet >> initializeRows: anArrayOfArrays
 
 ```Smalltalk
 CorruptedSpreadsheet >> checksum
-    "Calculates the checksum of a spreadsheet by summing up the ranges (difference between the largest value and the smallest value) of all its rows."
+    "Calculates the checksum of a spreadsheet by summing up
+    the ranges (difference between the largest value and
+    the smallest value) of all its rows."
 
     ^ (1 to: self numberOfRows) inject: 0 into: [ :sum :i |
             sum + (self rowAt: i) range ].
-```
-
-```Smalltalk
-CorruptedSpreadsheet >> initializeRows: anArrayOfArrays
-    "Overrides DataFrame>>initializeRows to automatically convert the values retrieved from CSV file with DataFrame class class >> fromCSV: to Number"
-    
-    super initializeRows: anArrayOfArrays.
-    
-    self
-        toColumns: self columnNames
-        applyElementwise: [ :cell | cell asNumber ].
-        
-    ^ self
 ```
 
 ```Smalltalk
@@ -63,7 +62,6 @@ CorruptedSpreadsheetTests >> testExample1
 ```Smalltalk
 CorruptedSpreadsheet class class >> exampleAnswerPart1
 <gtExample>
-    "comment stating purpose of message"
 
     | spreadsheet answer |
     
@@ -79,7 +77,10 @@ CorruptedSpreadsheet class class >> exampleAnswerPart1
 
 ```Smalltalk
 CorruptedSpreadsheet >> sumOfEvenDivisions
-    "Finds the only two numbers in each row where one evenly divides the other - that is, where the result of the division operation is a whole number. Returns the sum of these divisions across all rows"
+    "Finds the only two numbers in each row where one evenly
+    divides the other - that is, where the result of the
+    division operation is a whole number. Returns the sum of
+    these divisions across all rows"
 
     ^ ((1 to: self numberOfRows) inject: 0 into: [ :sum :k |
         | row div evenDiv |
@@ -114,7 +115,6 @@ CorruptedSpreadsheetTests >> testExample2
 ```Smalltalk
 CorruptedSpreadsheet class class >> exampleAnswerPart2
 <gtExample>
-    "comment stating purpose of message"
 
     | spreadsheet answer |
     
