@@ -4,17 +4,17 @@
 This is my solution to [Day 2: Corruption Checksum](http://adventofcode.com/2017/day/2) puzzles from [Advent of Code 2017](http://adventofcode.com/2017). All code blocks were automatically genarated from my [Pharo](https://pharo.org) image with [Epicea Markdown Exporter](https://medium.com/@i.oleks/epicea-markdown-exporter-2d594dd62cbd). The solution is based on [DataFrame](https://github.com/PolyMathOrg/DataFrame) - a new data structure for spreadsheet-like datasets.
 
 ## Table of Contents
-1. Setting up the environment
-2. Part 1
-    1. Puzzle
-    2. Solution
-    3. Tests and results
-    4. DataFrame issues
-3. Part 2
-    1. Puzzle
-    2. Solution
-    3. Tests and results
-    4. DataFrame issues
+1. [Setting up the environment](#setting-up-the-environment)
+2. [Part 1](#part-1)
+    1. [Puzzle](#puzzle)
+    2. [Solution](#solution)
+    3. [Tests and results](#tests-and-results)
+    4. [DataFrame issues](#dataframe-issues)
+3. [Part 2](#part-2)
+    1. [Puzzle](#puzzle-1)
+    2. [Solution](#solution-1)
+    3. [Tests and results](#tests-and-results-1)
+    4. [DataFrame issues](#dataframe-issues-1)
 
 ## Setting up the environment
 
