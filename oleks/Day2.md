@@ -43,7 +43,7 @@ Until the desired functionality is added, I can modify my subclass to simply con
 
 ```Smalltalk
 CorruptedSpreadsheet >> initializeRows: anArrayOfArrays
-    "Overrides DataFrame>>initializeRows to automatically
+    "Overrides DataFrame >> initializeRows to automatically
     convert the values retrieved from CSV file with
     DataFrame class class >> fromCSV: to Number"
     
@@ -98,7 +98,7 @@ CorruptedSpreadsheetTests >> testExample1
     self assert: actualChecksum equals: expectedChecksum.
 ```
 
-As it was mentioned before, I've put the puzzle input into a '/Users/oleks/Desktop/day2.csv' file. The answer to this puzzle is `53460`.
+As it was mentioned before, I've put the puzzle input into a '/Users/oleks/Desktop/day2.csv' file. The answer to this puzzle is 53460.
 
 ```Smalltalk
 CorruptedSpreadsheet class class >> exampleAnswerPart1
