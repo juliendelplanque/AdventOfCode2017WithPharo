@@ -136,7 +136,7 @@ CorruptedSpreadsheet >> sumOfEvenDivisions
 
     ^ ((1 to: self numberOfRows) inject: 0 into: [ :sum :k |
         | row div evenDiv |
-        row :=self rowAt: k.
+        row := self rowAt: k.
         evenDiv := 0.
 
         1 to: row size do: [ :i |
