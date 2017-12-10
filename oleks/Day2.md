@@ -9,12 +9,11 @@ This is my solution to [Day 2: Corruption Checksum](http://adventofcode.com/2017
     1. [Puzzle](#puzzle)
     2. [Solution](#solution)
     3. [Tests and results](#tests-and-results)
-    4. [DataFrame issues](#dataframe-issues)
 3. [Part 2](#part-2)
     1. [Puzzle](#puzzle-1)
     2. [Solution](#solution-1)
     3. [Tests and results](#tests-and-results-1)
-    4. [DataFrame issues](#dataframe-issues-1)
+4. [DataFrame issues](#dataframe-issues)
 
 ## Setting up the environment
 
@@ -38,7 +37,7 @@ TestCase subclass: #CorruptedSpreadsheetTests
     category: 'AdventOfCode2017-Day2'
 ```
 
-The given puzzle input is rather big, so I will put it into a CSV file '/Users/oleks/Desktop/day2.csv' and read it from there. I know that all the values are integers, but [NeoCSVReader](https://ci.inria.fr/pharo-contribution/job/EnterprisePharoBook/lastSuccessfulBuild/artifact/book-result/NeoCSV/NeoCSV.html) used by DataFrame to read CSV files returns does not automatically parse strings to numbers whenever it's possible (I thing that this step should be done by DataFrame, so I'm creating an [issue](https://github.com/PolyMathOrg/DataFrame/issues/20) for it).
+The given puzzle input is rather big, so I will put it into a CSV file '/Users/oleks/Desktop/day2.csv' and read it from there. I know that all the values are integers, but [NeoCSVReader](https://ci.inria.fr/pharo-contribution/job/EnterprisePharoBook/lastSuccessfulBuild/artifact/book-result/NeoCSV/NeoCSV.html) used by DataFrame to read CSV files returns does not automatically parse strings to numbers whenever it's possible (I think that this step should be done by DataFrame, so I'm creating an [issue](https://github.com/PolyMathOrg/DataFrame/issues/20) for it).
 
 Until the desired functionality is added, I can modify my subclass to simply convert all values to integers every time a `CorruptedSpreadsheet` is initialized. This can be done by overriding the `DataFrame >> initializeRows:` method which is called by `DataFrame >> fromCSV:`.
 
@@ -60,11 +59,13 @@ CorruptedSpreadsheet >> initializeRows: anArrayOfArrays
 ## Part 1
 
 ### Puzzle
-As you walk through the door, a glowing humanoid shape yells in your direction. "You there! Your state appears to be idle. Come help us repair the corruption in this spreadsheet - if we take another millisecond, we'll have to display an hourglass cursor!"
 
-The spreadsheet consists of rows of apparently-random numbers. To make sure the recovery process is on the right track, they need you to calculate the spreadsheet's checksum. For each row, determine the difference between the largest value and the smallest value; the checksum is the sum of all of these differences.
+> As you walk through the door, a glowing humanoid shape yells in your direction. "You there! Your state appears to be idle. Come help us repair the corruption in this spreadsheet - if we take another millisecond, we'll have to display an hourglass cursor!"
+> The spreadsheet consists of rows of apparently-random numbers. To make sure the recovery process is on the right track, they need you to calculate the spreadsheet's checksum. For each row, determine the difference between the largest value and the smallest value; the checksum is the sum of all of these differences.
 
 ### Solution
+
+The difference between the largest value and the smallest value of a `DataSeries` can be calculated with `DataSeries >> range`. So I need to create just one simple `checksum` method that sums up the ranges of all rows in a spreadsheet.
 
 ```Smalltalk
 CorruptedSpreadsheet >> checksum
@@ -77,6 +78,8 @@ CorruptedSpreadsheet >> checksum
 ```
 
 ### Tests and results
+
+We are given one example in this puzzle. To test if my `CorruptedSpreadsheet >> checksum` can handle it, I create a test. The only problem is that second row of a table in this example has only three values, while other rows have four. At this moment DataFrame can't handle missing values (here's an [issue](https://github.com/PolyMathOrg/DataFrame/issues/21) for it). So for now I just substitute that missing value with number 4, which is between the smallest (3) and the largest (5) values of that row. Therefore, the checksum of this example should not be affected by this change.
 
 ```Smalltalk
 CorruptedSpreadsheetTests >> testExample1
@@ -94,6 +97,8 @@ CorruptedSpreadsheetTests >> testExample1
     self assert: actualChecksum equals: expectedChecksum.
 ```
 
+As it was mentioned before, I've put the puzzle input into a '/Users/oleks/Desktop/day2.csv' file. The answer to this puzzle is `53460`.
+
 ```Smalltalk
 CorruptedSpreadsheet class class >> exampleAnswerPart1
 <gtExample>
@@ -108,18 +113,16 @@ CorruptedSpreadsheet class class >> exampleAnswerPart1
     ^ answer
 ```
 
-### DataFrame issues
-
 ## Part 2
 
 ### Puzzle
-"Great work; looks like we're on the right track after all. Here's a star for your effort." However, the program seems a little worried. Can programs be worried?
-
-"Based on what we're seeing, it looks like all the User wanted is some information about the evenly divisible values in the spreadsheet. Unfortunately, none of us are equipped for that kind of calculation - most of us specialize in bitwise operations."
-
-It sounds like the goal is to find the only two numbers in each row where one evenly divides the other - that is, where the result of the division operation is a whole number. They would like you to find those numbers on each line, divide them, and add up each line's result.
+> "Great work; looks like we're on the right track after all. Here's a star for your effort." However, the program seems a little worried. Can programs be worried?
+> "Based on what we're seeing, it looks like all the User wanted is some information about the evenly divisible values in the spreadsheet. Unfortunately, none of us are equipped for that kind of calculation - most of us specialize in bitwise operations."
+> It sounds like the goal is to find the only two numbers in each row where one evenly divides the other - that is, where the result of the division operation is a whole number. They would like you to find those numbers on each line, divide them, and add up each line's result.
 
 ### Solution
+
+I create this simple method that finds the only two numbers in each row where one evenly divides the other and sums up the results of these divisions.
 
 ```Smalltalk
 CorruptedSpreadsheet >> sumOfEvenDivisions
@@ -144,6 +147,8 @@ CorruptedSpreadsheet >> sumOfEvenDivisions
 
 ### Tests and results
 
+This test verifies that my solution works well on the puzzle example.
+
 ```Smalltalk
 CorruptedSpreadsheetTests >> testExample2
 
@@ -160,6 +165,8 @@ CorruptedSpreadsheetTests >> testExample2
     self assert: actualSum equals: expectedSum.
 ```
 
+And the answer to this puzzle is 282.
+
 ```Smalltalk
 CorruptedSpreadsheet class class >> exampleAnswerPart2
 <gtExample>
@@ -174,4 +181,20 @@ CorruptedSpreadsheet class class >> exampleAnswerPart2
     ^ answer
 ```
 
-### DataFrame issues
+## DataFrame issues
+
+1. [fromCSV: should detect data types](https://github.com/PolyMathOrg/DataFrame/issues/20). I had to read the numbers of puzzle input from a CSV file as strings and then convert them to a numeric data type. This should be done automatically by DataFrame.
+2. [It's not possible to initialize DataFrame with an array of rows of different sizes](https://github.com/PolyMathOrg/DataFrame/issues/21) (rows with missing values). So I had to substitute the missing value in the puzzle example input with a dummy value.
+3. [Request the rowsCollect: method](https://github.com/PolyMathOrg/DataFrame/issues/22). I used `inject: into:` to sum up all the ranges. But it would be much better if DataFrame allowed us to `collectRows:` by applying some block to each row and collecting the results into another DataFrame. Then I could ask this new DataFrame to sum the values of its only column.
+
+```Smalltalk
+CorruptedSpreadsheet >> checksum
+    "This is an example of how checksum could have been
+    implemented if DataFrame supported collectRows"
+
+    | ranges |
+
+    ranges := self collectRows: [ :row | row range ].
+    ^ (ranges columnAt: 1) sum 
+```
+
