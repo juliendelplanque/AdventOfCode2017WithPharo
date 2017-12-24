@@ -1,0 +1,8 @@
+The code for the 01 day is available at:
+
+http://smalltalkhub.com/#!/~StephaneDucasse/Advent/source
+
+MCHttpRepository
+	location: 'http://smalltalkhub.com/mc/StephaneDucasse/Advent/main'
+	user: ''
+	password: ''
